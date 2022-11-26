@@ -1,5 +1,15 @@
-# PS 2 - 28.11.2021 - Kompozycja / Cykle życia
+# PS 2 - 27.11.2022 - Kompozycja / Cykle życia
 Dokumentacja: https://pl.reactjs.org/docs/react-component.html#the-component-lifecycle
+
+## Zadanie 0.99 :) - Klonowanie projektu / zmiana gałęzi / instalacja / uruchomienie szablonu
+
+Aby uruchomić szablon do wykonywania poniższych zadań powinieneś:
+
+- Utworzyć folder w którym będzie znajdowała się aplikacja (nowy tj. nie ten sam na którym pracowałeś na poprzednich zajęciach)
+- do utworzonego projektu sklonować to repozytorium za pomocą komendy: 'git clone git@github.com:niczyporukm/react2223.git'
+- zmienić gałąź (branch) z main na ps2-27.11.2022 za pomocą komendy: 'git checkout ps2-27.11.2022'
+- zainstalować zależności za pomocą komendy 'npm install'
+- uruchomić aplikację za pomocą 'npm start'
 
 Aktualny szablon aplikacji posiada 3 główne komponenty:
 - Header - nagłówek
@@ -46,7 +56,7 @@ Aktualny szablon aplikacji posiada 3 główne komponenty:
         };
     }
 ```
-  - wyświetl wartość utworzonego stanu  w paragrafie <p> ponizej napisu "Left column" i sprawdź rezultat na ekranie (powinieneś zobaczyć 100)
+  - wyświetl wartość utworzonego stanu  w paragrafie < p > ponizej napisu "Left column" i sprawdź rezultat na ekranie (powinieneś zobaczyć 100)
   - zmodyfikuj utworzony paragraf w taki sposób aby zamiast wartości 100 wyświetlał (this.state.initialLeftCounterValue + this.props.timerValue) (jeżeli odlicza od 100 do góry wygrałeś !!!). Komponent LeftColumn co sekundę dostaje nową wartość w propsie timerValue która jest elementem wyświetlanym, zatem komponent LeftColumn jest przerenderowywany.
   - aby było wiadomo co robi lewa kolumna zmieńmy jej tekst z "Left column" na "Left column count from 100", przy czym:
       - "Left column" jest tekstem z propsa
@@ -126,7 +136,7 @@ useEffect(() => {
    ```
 
 ## Zadanie 9
-Wykonaj to samo co w zadaniu 7 dla komponentu LeftColumn, użyj zatem 3 metod cyklu życia:
+Wykonaj to samo co w zadaniu 8 dla komponentu LeftColumn, użyj zatem 3 metod cyklu życia:
 - componentDidMound
 - componentDidUpdate
 - componentWillUnmount

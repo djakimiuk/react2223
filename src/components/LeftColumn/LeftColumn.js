@@ -17,20 +17,26 @@ class LeftColumn extends React.Component {
 
   // shouldComponentUpdate - wykonuje się za każdymn razem tuż przed przerysowaniem komponentu (metoda render),
   // jeżeli zwraca false komponent się "blokuje" i nie dochodzi do przerysowania
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.timerValue % 2 === 0) {
-      return true;
-    }
-    return false;
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (nextProps.timerValue % 2 === 0) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   render() {
+    const { timerValue, text } = this.props;
+    const { counter } = this.state;
     return (
       <div className={commonColumnsStyles.App}>
         <header className={commonColumnsStyles.AppHeader}>
           <img src={logo} className={commonColumnsStyles.AppLogo} alt="logo" />
-          <p> {`${this.props.text} count from ${this.state.counter}`} </p>
-          <p> {this.state.counter + this.props.timerValue} </p>
+          <p> {`${text} count from ${counter} only even numbers`} </p>
+          <p>
+            {' '}
+            {counter +
+              (timerValue % 2 === 0 ? timerValue : timerValue - 1)}{' '}
+          </p>
         </header>
       </div>
     );

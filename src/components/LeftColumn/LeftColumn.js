@@ -1,21 +1,21 @@
 import React from 'react';
 import logo from '../.././logo.svg';
-// import styles from './LeftColumn.module.scss';
-import commonColumnsStyles from '../../common/styles/Columns.module.scss'
+import commonColumnsStyles from '../../common/styles/Columns.module.scss';
 
 class LeftColumn extends React.Component {
-    render() {
-        return (
-            <div className={commonColumnsStyles.App}>
-              <header className={commonColumnsStyles.AppHeader}>
-                <img src={logo} className={commonColumnsStyles.AppLogo} alt="logo" />
-                <p>
-                  Left column
-                </p>
-              </header>
-            </div>
-          );
-    }
+  static defaultProps = {
+    text: 'Missing text from props',
+  };
+  render() {
+    return (
+      <div className={commonColumnsStyles.App}>
+        <header className={commonColumnsStyles.AppHeader}>
+          <img src={logo} className={commonColumnsStyles.AppLogo} alt="logo" />
+          <p>{this.props.text}</p>
+        </header>
+      </div>
+    );
   }
+}
 
-  export default LeftColumn;
+export default LeftColumn;

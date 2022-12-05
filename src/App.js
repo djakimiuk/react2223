@@ -13,14 +13,18 @@ function App() {
   setTimeout(() => {
     setTimerValue(timerValue + 1);
   }, 1000);
+
   return (
     <div className={styles.appWrapper}>
       <Header timerValue={timerValue} />
       <div className={styles.columnsWrapper}>
-        <LeftColumn timerValue={timerValue} text={leftColumnText} />
         {timerValue < 10 || timerValue > 15 ? (
-          <RightColumn timerValue={timerValue} text={rightColumnText} />
+          <LeftColumn timerValue={timerValue} text={leftColumnText} />
         ) : null}
+        <RightColumn timerValue={timerValue} text={rightColumnText} />
+        {/* {timerValue < 10 || timerValue > 15 ? (
+          <RightColumn timerValue={timerValue} text={rightColumnText} />
+        ) : null} */}
       </div>
     </div>
   );

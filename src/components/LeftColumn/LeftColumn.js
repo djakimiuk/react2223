@@ -24,6 +24,24 @@ class LeftColumn extends React.Component {
   //   return false;
   // }
 
+  componentDidMount() {
+    console.log('WYKONUJE SIĘ TYLKO PRZY MONTOWANIU');
+  }
+
+  componentWillUnmount() {
+    console.log('WYKONUJE SIĘ TYLKO PRZED ODMONTOWANIEM KOMPONENTU');
+    document.title = ' ^^__^^ ';
+  }
+
+  componentDidUpdate(prevProps) {
+    console.log('WYKONUJE SIE PO KAŻDYM PRZERYSOWANIU');
+    if (prevProps.timerValue % 2 === 0) {
+      document.title = ':)';
+    } else {
+      document.title = ':(';
+    }
+  }
+
   render() {
     const { timerValue, text } = this.props;
     const { counter } = this.state;

@@ -7,12 +7,23 @@ class LeftColumn extends React.Component {
     text: 'Missing text from props',
   };
 
+  // constructor - wykonuje się tylko raz przy pierwszym montowaniu komponentu
   constructor(props) {
     super(props);
     this.state = {
       counter: 100,
     };
   }
+
+  // shouldComponentUpdate - wykonuje się za każdymn razem tuż przed przerysowaniem komponentu (metoda render),
+  // jeżeli zwraca false komponent się "blokuje" i nie dochodzi do przerysowania
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.timerValue % 2 === 0) {
+      return true;
+    }
+    return false;
+  }
+
   render() {
     return (
       <div className={commonColumnsStyles.App}>

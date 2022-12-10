@@ -24,8 +24,26 @@ class LeftColumn extends React.Component {
     });
   }
 
+  componentDidMount() {
+    console.log('MOUNT');
+  }
+
+  componentWillUnmount = () => {
+    console.log('UNMOUNT');
+    this.props.onSetTimerToValue(495);
+  };
+
+  componentDidUpdate() {
+    console.log('DID UPDATE ');
+  }
+
   render() {
     const { counter } = this.state;
+    //   const { currentTimerValue } = this.props;
+    //   const columnShouldBeHide = currentTimerValue > 500;
+    // if (columnShouldBeHide) {
+    //     return null;
+    // }
     return (
       <div className={commonColumnsStyles.App}>
         <header className={commonColumnsStyles.AppHeader}>

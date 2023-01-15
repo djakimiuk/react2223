@@ -10,7 +10,7 @@ function App() {
     <div className={styles.appWrapper}>
       <Header />
       <div className={styles.columnsWrapper}>
-        <Results />
+        <Results vehiclesToDisplay={vehicles} />
         {/* <RightColumn /> */}
       </div>
     </div>

@@ -12,15 +12,21 @@ class Header extends React.Component {
   }
 
   handleSearchPhraseChange = (event) => {
-    this.setState({ searchPhrase: event.target.value });
+    this.setState({ searchPhrase: event.target.value }, () =>
+      this.filterVehicles()
+    );
   };
 
   handleOnlyCarsChange = (event) => {
-    this.setState({ searchOnlyCars: event.target.checked });
+    this.setState({ searchOnlyCars: event.target.checked }, () =>
+      this.filterVehicles()
+    );
   };
 
   handleSelectEngineType = (event) => {
-    this.setState({ searchEngineType: event.target.value });
+    this.setState({ searchEngineType: event.target.value }, () =>
+      this.filterVehicles()
+    );
   };
 
   filterVehicles = () => {
@@ -45,15 +51,6 @@ class Header extends React.Component {
     // przekazanie wyfiltrowanych pojazdów do komponentu rodzica (App)
     this.props.sendFilteredVehiclesToParentComponent(filteredVehicles);
   };
-
-  // handleResetFilters = () => {
-  //   this.setState({
-  //     searchPhrase: '',
-  //     searchOnlyCars: false,
-  //     searchEngineType: '',
-  //   });
-  //   this.filterVehicles();
-  // };
 
   handleResetFilters = () => {
     this.setState(
@@ -101,7 +98,7 @@ class Header extends React.Component {
             </option>
           ))}
         </select>
-        <button onClick={this.filterVehicles}>Wyszukaj</button>
+        {/* <button onClick={this.filterVehicles}>Wyszukaj</button> */}
         <button onClick={this.handleResetFilters}>Zresetuj filtry</button>
       </div>
     );

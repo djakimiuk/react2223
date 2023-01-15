@@ -6,6 +6,7 @@ class Header extends React.Component {
     super(props);
     this.state = {
       searchPhrase: '',
+      searchOnlyCars: false,
     };
   }
 
@@ -13,24 +14,40 @@ class Header extends React.Component {
     this.setState({ searchPhrase: event.target.value });
   };
 
+  handleOnlyCarsChange = (event) => {
+    this.setState({ searchOnlyCars: event.target.checked });
+  };
+
   filterVehicles = () => {
     const { vehicles } = this.props;
-    const { searchPhrase } = this.state;
+    const { searchPhrase, searchOnlyCars } = this.state;
 
     // odfiltrowanie zgodnych wyników
-    const filteredVehicles = vehicles.filter((vehicle) =>
+    let filteredVehicles = vehicles.filter((vehicle) =>
       vehicle.brand.includes(searchPhrase)
     );
+    if (searchOnlyCars) {
+      filteredVehicles = filteredVehicles.filter(
+        (vehicle2) => vehicle2.type === 'car'
+      );
+    }
     // przekazanie wyfiltrowanych pojazdów do komponentu rodzica (App)
     this.props.sendFilteredVehiclesToParentComponent(filteredVehicles);
   };
+
   render() {
-    const { searchPhrase } = this.state;
+    const { searchPhrase, searchOnlyCars } = this.state;
     return (
       <div className={styles.HeaderWrapper}>
         <input
           value={searchPhrase}
           onChange={this.handleSearchPhraseChange}
+        ></input>
+        <p> Tylko samochody </p>
+        <input
+          type="checkbox"
+          onChange={this.handleOnlyCarsChange}
+          value={searchOnlyCars}
         ></input>
         <button onClick={this.filterVehicles}>Wyszukaj</button>
       </div>

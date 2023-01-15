@@ -7,6 +7,7 @@ class Header extends React.Component {
     this.state = {
       searchPhrase: '',
       searchOnlyCars: false,
+      searchEngineType: '',
     };
   }
 
@@ -18,9 +19,13 @@ class Header extends React.Component {
     this.setState({ searchOnlyCars: event.target.checked });
   };
 
+  handleSelectEngineType = (event) => {
+    this.setState({ searchEngineType: event.target.value });
+  };
+
   filterVehicles = () => {
     const { vehicles } = this.props;
-    const { searchPhrase, searchOnlyCars } = this.state;
+    const { searchPhrase, searchOnlyCars, searchEngineType } = this.state;
 
     // odfiltrowanie zgodnych wyników
     let filteredVehicles = vehicles.filter((vehicle) =>
@@ -28,15 +33,28 @@ class Header extends React.Component {
     );
     if (searchOnlyCars) {
       filteredVehicles = filteredVehicles.filter(
-        (vehicle2) => vehicle2.type === 'car'
+        (vehicle) => vehicle.type === 'car'
+      );
+    }
+    if (searchEngineType) {
+      filteredVehicles = filteredVehicles.filter(
+        (vehicle) => vehicle.engineType === searchEngineType
       );
     }
     // przekazanie wyfiltrowanych pojazdów do komponentu rodzica (App)
     this.props.sendFilteredVehiclesToParentComponent(filteredVehicles);
   };
 
+  getUniqueVehicleEngineTypes = () => {
+    const { vehicles } = this.props;
+    const vehicleEngineList = vehicles.map((vehicle) => vehicle.engineType);
+    const uniqueVehicleEngineList = [...new Set(vehicleEngineList)];
+    return uniqueVehicleEngineList;
+  };
+
   render() {
-    const { searchPhrase, searchOnlyCars } = this.state;
+    const uniqueVehicleEngineTypes = this.getUniqueVehicleEngineTypes();
+    const { searchPhrase, searchOnlyCars, searchEngineType } = this.state;
     return (
       <div className={styles.HeaderWrapper}>
         <input
@@ -49,6 +67,17 @@ class Header extends React.Component {
           onChange={this.handleOnlyCarsChange}
           value={searchOnlyCars}
         ></input>
+        <p> Typ silnika </p>
+        <select value={searchEngineType} onChange={this.handleSelectEngineType}>
+          <option key={'all'} value={''}>
+            All types
+          </option>
+          {uniqueVehicleEngineTypes.map((engineType) => (
+            <option key={engineType} value={engineType}>
+              {engineType}
+            </option>
+          ))}
+        </select>
         <button onClick={this.filterVehicles}>Wyszukaj</button>
       </div>
     );

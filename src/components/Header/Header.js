@@ -41,8 +41,31 @@ class Header extends React.Component {
         (vehicle) => vehicle.engineType === searchEngineType
       );
     }
+    console.log('sprawdzam aktualne filtry', filteredVehicles);
     // przekazanie wyfiltrowanych pojazdów do komponentu rodzica (App)
     this.props.sendFilteredVehiclesToParentComponent(filteredVehicles);
+  };
+
+  // handleResetFilters = () => {
+  //   this.setState({
+  //     searchPhrase: '',
+  //     searchOnlyCars: false,
+  //     searchEngineType: '',
+  //   });
+  //   this.filterVehicles();
+  // };
+
+  handleResetFilters = () => {
+    this.setState(
+      {
+        searchPhrase: '',
+        searchOnlyCars: false,
+        searchEngineType: '',
+      },
+      () => {
+        this.filterVehicles();
+      }
+    );
   };
 
   getUniqueVehicleEngineTypes = () => {
@@ -79,6 +102,7 @@ class Header extends React.Component {
           ))}
         </select>
         <button onClick={this.filterVehicles}>Wyszukaj</button>
+        <button onClick={this.handleResetFilters}>Zresetuj filtry</button>
       </div>
     );
   }

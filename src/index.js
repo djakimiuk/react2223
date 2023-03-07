@@ -5,11 +5,13 @@ import App from './App';
 import { LoginPage } from './components/LoginPage/LoginPage';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Page404 } from './components/Page404/Page404';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <LoginPage />,
+    errorElement: <Page404 />,
   },
   {
     path: '/dashboard',

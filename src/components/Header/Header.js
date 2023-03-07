@@ -1,17 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
+import WithRouterHOC from '../WithRouterHOC/WithRouterHOC';
 
 class Header extends React.Component {
+  handleButtonClick = () => {
+    localStorage.removeItem('loggedUser');
+    this.props.navigate('/');
+  };
+
   render() {
+    const userFromLocalStorage =
+      localStorage.loggedUser && JSON.parse(localStorage.loggedUser);
+
     return (
       <div className={styles.HeaderWrapper}>
-        <Link to="/">
-          <button>Sign Out</button>
-        </Link>
+        <button onClick={this.handleButtonClick}>Sign Out</button>
+        <p>Jesteś zalogowany jako: </p>
+        {userFromLocalStorage?.userFirstName}{' '}
+        {userFromLocalStorage?.userLastName}
       </div>
     );
   }
 }
 
-export default Header;
+export default WithRouterHOC(Header);

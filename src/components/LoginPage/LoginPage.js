@@ -1,3 +1,9 @@
+import { Link } from 'react-router-dom';
+
 export const LoginPage = () => {
-  return <button>Sign In</button>;
+  return (
+    <Link to="/dashboard">
+      <button>Sign In</button>
+    </Link>
+  );
 };

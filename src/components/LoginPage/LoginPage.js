@@ -1,6 +1,7 @@
 // import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import airports from '../../common/consts/airports';
 
 export const LoginPage = () => {
   const [firstName, setFirstName] = useState('');
@@ -19,6 +20,7 @@ export const LoginPage = () => {
   const handleButtonClick = () => {
     const userData = { userFirstName: firstName, userLastName: lastName };
     localStorage.setItem('loggedUser', JSON.stringify(userData));
+    localStorage.setItem('airports', JSON.stringify(airports));
     navigate('/dashboard');
   };
 

@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import airports from '../../common/consts/airports';
+import { uniqueId } from 'lodash';
 
 export const LoginPage = () => {
   const [firstName, setFirstName] = useState('');
@@ -20,7 +21,12 @@ export const LoginPage = () => {
   const handleButtonClick = () => {
     const userData = { userFirstName: firstName, userLastName: lastName };
     localStorage.setItem('loggedUser', JSON.stringify(userData));
-    localStorage.setItem('airports', JSON.stringify(airports));
+    localStorage.setItem(
+      'airports',
+      JSON.stringify(
+        airports.map((airport) => ({ ...airport, airportId: uniqueId() }))
+      )
+    );
     navigate('/dashboard');
   };
 

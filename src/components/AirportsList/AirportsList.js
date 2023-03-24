@@ -9,7 +9,10 @@ const AirportList = () => {
       <header className={commonColumnsStyles.AppHeader}>
         <p>AirportList</p>
         {airportsList.map((airport) => (
-          <span> {airport.name} </span>
+          <span>
+            {' '}
+            {airport.name} {airport.airportId}{' '}
+          </span>
         ))}
       </header>
     </div>

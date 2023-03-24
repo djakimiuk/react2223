@@ -27,7 +27,7 @@ export const LoginPage = () => {
         airports.map((airport) => ({ ...airport, airportId: uniqueId() }))
       )
     );
-    navigate('/dashboard');
+    navigate('/airport/list');
   };
 
   return (

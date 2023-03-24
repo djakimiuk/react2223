@@ -3,7 +3,7 @@ import AirportsList from './components/AirportsList/AirportsList';
 import Header from './components/Header/Header';
 import styles from './App.module.scss';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 function App() {
   const navigate = useNavigate();
@@ -16,9 +16,10 @@ function App() {
   return (
     <div className={styles.appWrapper}>
       <Header />
-      <div className={styles.columnsWrapper}>
+      <Outlet />
+      {/* <div className={styles.columnsWrapper}>
         <AirportsList />
-      </div>
+      </div> */}
     </div>
   );
 }

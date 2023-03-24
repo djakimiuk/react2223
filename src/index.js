@@ -6,6 +6,8 @@ import { LoginPage } from './components/LoginPage/LoginPage';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Page404 } from './components/Page404/Page404';
+import AirportList from './components/AirportsList/AirportsList';
+import AirportDetails from './components/AirportDetails/AirportDetails';
 
 const router = createBrowserRouter([
   {
@@ -14,8 +16,18 @@ const router = createBrowserRouter([
     errorElement: <Page404 />,
   },
   {
-    path: '/dashboard',
+    path: '/airport',
     element: <App />,
+    children: [
+      {
+        path: 'list',
+        element: <AirportList />,
+      },
+      {
+        path: 'details/:id',
+        element: <AirportDetails />,
+      },
+    ],
   },
 ]);
 

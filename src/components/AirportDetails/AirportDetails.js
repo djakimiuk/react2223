@@ -28,7 +28,13 @@ const AirportDetails = () => {
       'airports',
       JSON.stringify(airportListWithoutSelected)
     );
-    navigate('/airport/list');
+    // navigate('/airport/list');
+
+    navigate('/airport/list', {
+      state: {
+        removedAirport: matchAirport,
+      },
+    });
   };
   return (
     <div className={commonColumnsStyles.App}>

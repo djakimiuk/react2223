@@ -3,6 +3,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import airports from '../../common/consts/airports';
 import { uniqueId } from 'lodash';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 
 export const LoginPage = () => {
   const [firstName, setFirstName] = useState('');
@@ -31,14 +34,32 @@ export const LoginPage = () => {
   };
 
   return (
-    <>
-      <label>Imie:</label>
-      <input onChange={handleFirstName}></input>
-      <label>Nazwisko:</label>
-      <input onChange={handleLastName}></input>
-      <button disabled={!firstName || !lastName} onClick={handleButtonClick}>
-        Sign In
-      </button>
-    </>
+    <Box m={4}>
+      <TextField
+        id="outlined-basic"
+        label="Imie"
+        variant="outlined"
+        onChange={handleFirstName}
+        sx={{ p: 2 }}
+      />
+
+      <TextField
+        id="outlined-basic"
+        label="Nazwisko"
+        variant="outlined"
+        onChange={handleLastName}
+        sx={{ p: 2 }}
+      />
+
+      <Button
+        onClick={handleButtonClick}
+        disabled={!firstName || !lastName}
+        variant="outlined"
+        size="large"
+        sx={{ mt: 2 }}
+      >
+        Outlined
+      </Button>
+    </Box>
   );
 };

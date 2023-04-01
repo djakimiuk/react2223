@@ -5,6 +5,7 @@ export const airportsSlice = createSlice({
   name: 'airports',
   initialState: {
     list: [],
+    selectedAirport: null,
   },
   reducers: {
     loadAirports: (state) => {
@@ -13,9 +14,13 @@ export const airportsSlice = createSlice({
     removeAirports: (state) => {
       state.list = [];
     },
+    setSelectedAirport: (state, value) => {
+      state.selectedAirport = value.payload;
+    },
   },
 });
 
-export const { loadAirports, removeAirports } = airportsSlice.actions;
+export const { loadAirports, removeAirports, setSelectedAirport } =
+  airportsSlice.actions;
 
 export default airportsSlice.reducer;

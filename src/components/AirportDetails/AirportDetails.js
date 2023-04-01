@@ -11,31 +11,33 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Button } from '@mui/material';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+
 const AirportDetails = () => {
   const navigate = useNavigate();
-  const params = useParams();
-  const { id } = params;
-
+  // const params = useParams();
+  // const { id } = params;
+  const matchAirport = useSelector((state) => state.airports.selectedAirport);
   const [dialogIsVisible, setDialogIsVisible] = useState(false);
-  const airportsList = JSON.parse(localStorage.airports);
-  const matchAirport = airportsList.find((airport) => airport.airportId === id);
+  // const airportsList = JSON.parse(localStorage.airports);
+  // const matchAirport = airportsList.find((airport) => airport.airportId === id);
 
-  const handleDeleteItem = () => {
-    const airportListWithoutSelected = airportsList.filter(
-      (airport) => airport.airportId !== id
-    );
-    localStorage.setItem(
-      'airports',
-      JSON.stringify(airportListWithoutSelected)
-    );
-    // navigate('/airport/list');
+  // const handleDeleteItem = () => {
+  //   const airportListWithoutSelected = airportsList.filter(
+  //     (airport) => airport.airportId !== id
+  //   );
+  //   localStorage.setItem(
+  //     'airports',
+  //     JSON.stringify(airportListWithoutSelected)
+  //   );
+  //   // navigate('/airport/list');
 
-    navigate('/airport/list', {
-      state: {
-        removedAirport: matchAirport,
-      },
-    });
-  };
+  //   navigate('/airport/list', {
+  //     state: {
+  //       removedAirport: matchAirport,
+  //     },
+  //   });
+  // };
   return (
     <div className={commonColumnsStyles.App}>
       <Dialog
@@ -55,9 +57,9 @@ const AirportDetails = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setDialogIsVisible(false)}>Jednak nie</Button>
-          <Button onClick={() => handleDeleteItem()} autoFocus>
+          {/* <Button onClick={() => handleDeleteItem()} autoFocus>
             Tak usuwajmy !!
-          </Button>
+          </Button> */}
         </DialogActions>
       </Dialog>
       <header className={commonColumnsStyles.AppHeader}>

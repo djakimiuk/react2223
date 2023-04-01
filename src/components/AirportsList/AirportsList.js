@@ -4,12 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSelectedAirport } from '../../redux/airportsSlice';
 
 const AirportList = () => {
   const [snackbarIsVisible, setSnackbarIsVisible] = useState(false);
   const airportsList = useSelector((state) => state.airports.list);
   const location = useLocation();
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,6 +20,11 @@ const AirportList = () => {
       setSnackbarIsVisible(true);
     }
   }, [location]);
+
+  const handleItemClick = (airport) => {
+    dispatch(setSelectedAirport(airport));
+    navigate(`/airport/details/${airport.airportId}`);
+  };
 
   return (
     <div className={commonColumnsStyles.App}>
@@ -30,11 +38,7 @@ const AirportList = () => {
         <p>AirportList</p>
         {airportsList.length > 0
           ? airportsList.map((airport) => (
-              <span
-                onClick={() =>
-                  navigate(`/airport/details/${airport.airportId}`)
-                }
-              >
+              <span onClick={() => handleItemClick(airport)}>
                 {' '}
                 {airport.name} {airport.airportId}{' '}
               </span>

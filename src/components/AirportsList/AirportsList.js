@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const AirportList = () => {
   const [snackbarIsVisible, setSnackbarIsVisible] = useState(false);
-
-  const airportsList = JSON.parse(window.localStorage.getItem('airports'));
+  const airportsList = useSelector((state) => state.airports.list);
   const location = useLocation();
   const navigate = useNavigate();
 

@@ -17,9 +17,6 @@ function App() {
     <div className={styles.appWrapper}>
       <Header />
       <Outlet />
-      {/* <div className={styles.columnsWrapper}>
-        <AirportsList />
-      </div> */}
     </div>
   );
 }

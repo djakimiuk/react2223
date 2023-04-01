@@ -8,6 +8,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Page404 } from './components/Page404/Page404';
 import AirportList from './components/AirportsList/AirportsList';
 import AirportDetails from './components/AirportDetails/AirportDetails';
+import store from './redux/store';
+import { Provider } from 'react-redux';
 
 const router = createBrowserRouter([
   {
@@ -32,9 +34,11 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  </Provider>,
   document.getElementById('root')
 );
 

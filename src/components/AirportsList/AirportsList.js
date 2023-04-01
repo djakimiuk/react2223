@@ -40,7 +40,7 @@ const AirportList = () => {
           ? airportsList.map((airport) => (
               <span onClick={() => handleItemClick(airport)}>
                 {' '}
-                {airport.name} {airport.airportId}{' '}
+                {airport.name} {airport.id}{' '}
               </span>
             ))
           : 'brak lotnisk do wyświetlenia'}

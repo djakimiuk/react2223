@@ -11,7 +11,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Button } from '@mui/material';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { removeAirport } from '../../redux/airportsSlice';
 
 const AirportDetails = () => {
   const navigate = useNavigate();
@@ -19,25 +20,19 @@ const AirportDetails = () => {
   // const { id } = params;
   const matchAirport = useSelector((state) => state.airports.selectedAirport);
   const [dialogIsVisible, setDialogIsVisible] = useState(false);
+  const dispatch = useDispatch();
   // const airportsList = JSON.parse(localStorage.airports);
   // const matchAirport = airportsList.find((airport) => airport.airportId === id);
 
-  // const handleDeleteItem = () => {
-  //   const airportListWithoutSelected = airportsList.filter(
-  //     (airport) => airport.airportId !== id
-  //   );
-  //   localStorage.setItem(
-  //     'airports',
-  //     JSON.stringify(airportListWithoutSelected)
-  //   );
-  //   // navigate('/airport/list');
+  const handleDeleteItem = () => {
+    dispatch(removeAirport(matchAirport));
 
-  //   navigate('/airport/list', {
-  //     state: {
-  //       removedAirport: matchAirport,
-  //     },
-  //   });
-  // };
+    navigate('/airport/list', {
+      state: {
+        removedAirport: matchAirport,
+      },
+    });
+  };
   return (
     <div className={commonColumnsStyles.App}>
       <Dialog
@@ -57,9 +52,9 @@ const AirportDetails = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setDialogIsVisible(false)}>Jednak nie</Button>
-          {/* <Button onClick={() => handleDeleteItem()} autoFocus>
+          <Button onClick={() => handleDeleteItem()} autoFocus>
             Tak usuwajmy !!
-          </Button> */}
+          </Button>
         </DialogActions>
       </Dialog>
       <header className={commonColumnsStyles.AppHeader}>

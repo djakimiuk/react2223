@@ -4,11 +4,18 @@ import airports from '../common/consts/airports';
 export const airportsSlice = createSlice({
   name: 'airports',
   initialState: {
-    list: airports,
+    list: [],
   },
-  reducers: {},
+  reducers: {
+    loadAirports: (state) => {
+      state.list = airports;
+    },
+    removeAirports: (state) => {
+      state.list = [];
+    },
+  },
 });
 
-export const {} = airportsSlice.actions;
+export const { loadAirports, removeAirports } = airportsSlice.actions;
 
 export default airportsSlice.reducer;

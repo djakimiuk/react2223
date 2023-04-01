@@ -28,14 +28,18 @@ const AirportList = () => {
       />
       <header className={commonColumnsStyles.AppHeader}>
         <p>AirportList</p>
-        {airportsList.map((airport) => (
-          <span
-            onClick={() => navigate(`/airport/details/${airport.airportId}`)}
-          >
-            {' '}
-            {airport.name} {airport.airportId}{' '}
-          </span>
-        ))}
+        {airportsList.length > 0
+          ? airportsList.map((airport) => (
+              <span
+                onClick={() =>
+                  navigate(`/airport/details/${airport.airportId}`)
+                }
+              >
+                {' '}
+                {airport.name} {airport.airportId}{' '}
+              </span>
+            ))
+          : 'brak lotnisk do wyświetlenia'}
       </header>
     </div>
   );

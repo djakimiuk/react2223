@@ -1,128 +1,133 @@
-# PS 6 - 05.03.2023 WebStorage & ReactRouter
 
-
+# PS 7 - 25.03.2023 ReactRouter c.d / biblioteki zewnętrzne
 
 Docs:
 
-WebStorage - https://www.w3schools.com/html/html5_webstorage.asp
+ReactRouter - https://reactrouter.com/en/6.9.0/start/tutorial
 
-ReactRouter - https://reactrouter.com/en/6.8.2/start/tutorial
+Lodash - https://lodash.com/
 
-Instalacja reactRouter'a :
-`npm install react-router-dom localforage match-sorter sort-by`
+MaterialUI - https://mui.com/getting-started/installation/
 
 
-# Zadanie 1 - sessionStorage vs localStorage
+Instalacja MaterialUI (npm) - https://mui.com/getting-started/installation/ / `npm install @mui/material @emotion/react @emotion/styled`
 
-Celem tego zadania jest zrozumienie działania oraz różnic pomiędzy session i localStorage. Aby poglądać / modyfikować powyższe wartości nie musisz mieć własnej aplikacji. Wejdź na dowolną stronę np [podyplomówka](https://javascript.wi.pb.edu.pl/?utm_source=wwwpb&utm_medium=www&utm_campaign=oferta&utm_id=javascript), otwórz konsolę i po wpisaniu `localStorage` lub `sessionStorage` zobaczysz aktualne wartości które są zapisane dla tej strony www.
+Instalacja svg Icons do MaterialUI (npm) - https://mui.com/getting-started/installation/ / `npm install @mui/icons-material`
 
+Instalacja lodash'a - `npm i --save lodash`
 
 
-dodawanie wartości do l.storage - `localStorage.setItem("lsUser", "Jan Local");`
+# Zadanie 1
 
-dodawanie wartości do s.storage - `sessionStorage.setItem("ssUser", "Jan Session");`
+Komponent AirportsList wyświetla informację na temat dostępnych lotnisk na podstawie danych pochodzących z pliku `src/common/consts/airports.js`.
 
+W ramach dzisiejszych zadań będziemy między innymi modyfikowali te dane, aby mieć taką możliwość w ramach tego zadania:
+-   zapisz dane z pliku `airports.js` w localStorage pod kluczem "airports", a następnie zmodyfikuj komponent AirportsList.js w taki sposób aby wykorzystywał dane z local.storage zamiast bezpośrednio danych z pliku.
+- zapisanie danych do l.storage powinno się odbywać po zalogowaniu użytkownika, ale tuż przed przeniesiem go na kolejny widok
+- pamiętaj o użyciu metod JSON.stringify() oraz JSON.parse() aby otrzymać oryginalny format danych
 
+# Zadanie 2 - Biblioteka lodash - uniqueId
 
-Wykorzystując powyższe instrukcje dodaj wartości do local / session storage, podejrzyj je, a następnie:
+Każdy obiekt zawierający dane o lotnisku ma pustą wartość dla argumentu "id". Do kolejnego zadania będziemy potrzebowali unikatowych identyfikatorów dla każdego z lotnisk.
 
-- odśwież stronę - zrób podgląd
+Zmodyfikuj dane lotnisk w local storage w taki sposób aby każde lotnisko posiadało unikatowe id.
 
-- zamknij kartę przeglądarki, odpal stronę ponownie - zrób podgląd
+Wykorzystaj do tego metodę `uniqueId` z biblioteki Lodash DOC: https://lodash.com/docs/4.17.15#uniqueId
 
-- zamknij przeglądarkę - zrób podgląd
+Powinieneś zatem zaimportować metodę uniqueId w komponencie
+`import { uniqueId } from  'lodash';`
+następnie każde wywołanie `uniqueId()` zwróci unikatowe Id w kontekście całej aplikacji
 
-- otwórz przeglądarkę w trybie incognito - zrób podgląd
+Aby zmodyfikować istniejące lotniska użyj funkcj mapującej jak poniżej:
+`airports.map((airport) => ({...airport, id:  uniqueId()}))`
+Po dodaniu ID wyświetl je obok nazwy każdego lotniska w komponencie AirportsList
 
 
+# Zadanie 3 - Dodanie podstrony - airport/details/
 
-Przeanalizuj w którym podpunkcie straciłeś dostęp do wartości z sessionStorage a w którym z localStorage.
+Zadanie polega na zmodyfikowaniu aktualnego routingu w następujący sposób:
+1. Użytkownik po zalogowaniu powinien być przenoszony na adres /airport/list (aktualnie jest /dashboard)
+2. Aplikacja powinna posiadać dodatkowy routing /airport/details/:id do wyświetlenia szczegółowych informacji o konkretnym lotnisku
 
+Na obu stronach powinien wyświetlać się komponent:
+-  <App / > w którym bedzie się znajdował tylko nagłówek (czyli komponent <Header / >
+-  oraz zawartość pochodząca z konkretnego routingu, zatem komponent < AirportsList> lub < AirportDetails>
 
+Aby wykonać to zadanie, będziesz musiał wskazać za pomocą komponentu < Outlet /> z react-routera miejsce w którym powinny się wyświetlić komponenty dzieci dla poszczególnego routingu
 
-# Zadanie 2 - ReactRouter
+# Zadanie 4 - Nawigacja i uzupełnienie AirportDetails o dane lotniska
 
+Po zrobieniu zadania 3 posiadasz adres /airport/details/:id, który odpowiada za wyświetlenie komponentu AirportDetails. W tym momencie adres wpisujemy ręcznie, zatem dodajmy funkcjonalność w której:
 
-Po zainstalowaniu ReactRoutera (komenda była podana u góry) możemy dodać stronę główną oraz podstrony (przejścia) dla Naszej aplikacji. Będziemy to robić na "samej górze" naszej aplikacji, a zatem w pliku `index.js`
+- po kliknięciu na dowolone lotnisko z listy użytkownik zostanie przeniesiony na /airoprt/details/:id gdzie id odpowiada id klikniętego lotniska.
+- w komponencie AirportDetails odczytajmy jakie id otrzymaliśmy, posłuży Nam do tego poniższy hook
 
-Celem tego zadania jest "opakowanie" naszej aplikacji w komponent ReactRoutera za pomocą dedykowanej metody "createBrowserRouter" dostarczonej przez react-router-dom i ustawienie komponentu <App> jako wyświetlanego w domyślnej lokalizacji. Przykład jak tego dokonać jest opisany [tutaj](https://reactrouter.com/en/6.8.2/start/tutorial#adding-a-router)
+import { useParams } from  'react-router-dom';
 
-W końcowym efekcie aplikacja powinna zachowywać się dokładnie tak samo jak poprzednio.
+- skoro mamy już informację o id wybranego lotniska, znajdźmy pasujące w localStorage i wyświetlmy o nim trochę informacji np.
+```
+<header  className={commonColumnsStyles.AppHeader}>
+	<p>Airport Details</p>
+	<span>Państwo: {airportDetails.country}</span>
+	...
+</header>
+```
 
-Gdy udało Ci się to zrobić, w ramach testu do lokalizacji domyśnej wstaw inny komponent np Results zamiast App, zaobserwuj zmiany poczym wróc do rozwiązania z komponentem App jako domyślnym.
+# Zadanie 5 - Arrow back - nawigacja (Material UI)
 
-Pamiętaj: Jeżeli chcesz użyć komponentu Results, musisz go najpierw zaimportować u góry pliku
+W ramach tego zadania :
+-	użyjmy ikony ArrowBack dostarczonej przez zewnętrzną bibliotekę MaterialUI https://mui.com/components/material-icons/
+-  wyświetlmy ją w komponencie AirportDetails
+- na zdarzenie onClick podepnijmy "nawigację wsteczną", czyli odwzorujmy zachowanie kliknięcia na strzałkę w lewo dostępna w przeglądarce obok adresu url
+- dostęp do takiej nawigacji dostarcza nam hook
+`import {  useNavigate } from  'react-router-dom'` a dokładnie wywołanie metody `navigate(-1)`
 
+# Zadanie 6 - Material UI - wykorzystanie zewnętrznych komponentów
 
-# Zadanie 3 - Login Page jako strona startowa
+Celem tego zadania jest "upiększenie" aplikacji bez wiedzy na temat CSS'a. Będziesz również musiał zwrócić uwagę na właściwości które otrzymują poszczególne komponenty z biblioteki MaterialUi i się do tego dostosować.
+Zastąp zatem kilka komponentów których aktualnie używamy gotowymi z biblioteki MaterialUI
+W komponencie LoginPage:
+1) Zastąp kombinację < label > + < input > gotowym komponentem < TextField /> - https://mui.com/components/text-fields/
+2) Zastąp przycisk < button > komponentem <Button / > - https://mui.com/components/buttons/#main-content
+W komponencie Header:
+1) Użyj również komponentu < Button / >
+2) Uyj komponentu < Typography /> zamiast standardowego < p > - https://mui.com/components/typography/
+W komponencie AirportsList:
+1)  użyj komponentu < Stack spacing={2}> - do wyświetlania listy w kolumnie - https://mui.com/components/stack/#main-content
+2) < span > zastąp np. komponentem < Paper /> - https://mui.com/components/paper/#main-content
 
+# Zadanie 7 - Usuwanie lotniska
+W ramach tego zadania:
+1) Obok ikony ArrowBack w komponencie AirportDetails umieść nową ikonę kosza
+2) kliknięcie na tą ikonę powinno wykonać dwie czynności:
+-	na podstawie posiadanego id usunąć z local.storage powiązane lotnisko
+-	przenieść użytkownika do adresu /airports/list
 
-Jeżeli przetestowałeś jakiś inny komponent niż App jako komponent domyślny w powyższym zadaniu, to już wiesz w jaki sposób wyświetlić coś innego niż naszą aplikację na "dzień dobry". Celem tego zadania jest:
+Usunięte lotnisko nie powinno znajdować się na liście, możesz usunąć więcej lotnisk aby sprawdzić działanie, poczym odświeżyć przeglądarkę / wylogować się aby załadowac listę na nowo
 
-- Utworzenie zupełnie nowego komponentu "LoginPage" w lokalizacji - `components/LoginPage/LoginPage.js` (niech będzie to komponent funkcyjny)
 
-- Komponent ten powinien wyświetlać przycisk "Sign In" - na razie to wszystko...
+# Zadanie 8 - Usuwanie lotniska - confirmation popup
+Usuwanie elementu nigdy nie powinno odbywać się za pośrednictwem pojedyńczej akcji bez potwierdzenia przez użytkownika. W ramach tego zadania wyświetl okno potwierdzające, które będzie posiadało:
+1) tekst - "Czy na pewno chcesz usunąć to lotnisko:  Okecie  /  Poland" - nazwa i państwo jest wartością zmienną
+2) Przycisk "Tak" który zamyka okno, usuwa lotnisko i przenosi użytkownika do airports/list
+3) Przycisk "Nie", który zamyka okno bez dodatkowej akcji
 
-- LoginPage powinien być komponentem wyświetlanym domyślnie zatem zastąp użycie komponentu App w index.js utworzonym przed chwilą (routing dla ścieżki domyślnej tj. "/").
+Wykorzystaj do tego celu komponent Alert Dialog - https://mui.com/components/dialogs/#alerts
 
-Podobnie jak w poprzednim zadaniu, pamiętaj o zaimportowaniu LoginPage u góry !!!
+# Zadanie 9 - Informacja o usuniętym lotnisku na AirportsList
 
-Na koniec tego zadania powinieneś widzieć przycisk "Sign In" który nic nie robi a na dodatek nie masz dostępu do reszty aplikacji (╥﹏╥)
+Po usunięciu lotniska i przeniesieniu na listę, użytkownik powinien zobaczyć  dodatkowo informację o treści "Lotnisko Okęcie / Polska" zostało usunięte. Użyj do tego komponentu Snackbar - https://mui.com/components/snackbars/
 
+Poniższa informacja na temat przekazywania parametru poprzez hook useNavigate będzie zapewne pomocna
+```javascript
+	navigate('/airports/list', { state: { removedAirport: airport } });
 
-# Zadanie 4 - Nowy adres - routing dla aplikacji
+```
+Następnie aby odczytać wartość przekazywanego parametru w komponencie do którego zostałeś przeniesiony powinieneś użyć
+```javascript
+import { useLocation } from  'react-router-dom';
 
-Celem tego zadania jest "odzyskanie" dostępu do głównej części aplikacji, na razie bez ingerowania w przycisk, a poprzez ręczne zmodyfikowanie adresu url, aby tego dokonać musisz:
+const  location = useLocation();
 
-- dodać nowy Route dla porządanego adresu (niech będzie to "/dashboard"), aby to zrobić musisz dodać nowy element w liście przekazywanej do funkcji "createBrowserRouter" który będzie przypisany do adresu "/dashboard"
-
-- po dodaniu nowego adresu dopisz w przeglądarce http://localhost:3000 **/dashboard**
-
-Na koniec tego zadania powinieneś mieć możliwość ręcznej nawigacji pomiędzy komponentami App oraz LoginPage poprzez modyfikowanie końcówki adresu url.
-
-
-
-# Zadanie 5 - Nawigowanie po aplikacji
-
-Zastąpmy nawigowanie ręczne klikaniem po aplikacji. W ramach tego zadania wykonaj następujące przekierowania:
-
-- kliknięcie na przycisk "Sign In" w komponencie LoginPage powinno przenosić użytkownika do adresu "/dashboard" -> strona główna (symulujemy logowanie)
-
-- kliknięcie na przycisk "Sign out" w komponencie Header (musisz utworzyć taki przycisk) powinno przenosić użytkownika do ścieżki domyślnej "/" -> strona logowania (symulujemy wylogowanie)
-
-Za obsługę przekierowań odpowiada komponent < Link >, którego przykłady użycia znajdziesz [tutaj](https://reactrouter.com/en/6.8.2/start/tutorial#client-side-routing) . Musisz zatem "opakować przyciski "Sign In" oraz "Sign out" w komponent < Link > zgodnie z przykładem.
-
-# Zadanie 6 - Page not Found - 404
-
-W ramach tego zadania dodaj funkcjonalność, która będzie przenosiła użytkownika na konkretny widok po wpisaniu adresu, który nie posiada przypisanej ścieżki. Aby to zrobić powinieneś dodać klucz errorElement dla odpowiedniego obiektuy w fuknkcji "createBrowserRouter". Dokumentacja znajduje się [tutaj](https://reactrouter.com/en/6.8.2/start/tutorial#handling-not-found-errors).
-
-W ramach tego zadania utwórz nowy komponent zlokalizowany w /components/Page404/Page404.js, który będzie wyświetlał zawartość strony 404.
-
-# Zadanie 7 - Logowanie użytkownika - zapis do localStorage
-
-
-Celem tego zadania jest dodanie do komponentu LoginPage pola tekstowego z etykietą "User name" w którym będziemy podawali nazwę użytkownika. Użytkownik ten powinien być zapisany w localStorage abyśmy mogli nastepnie wyświetlić jego nazwę w aplikacji. Podczas wylogowywania z aplikacji użytkownik ten powinien być również kasowany z localStorage.
-
-Celem tego zadania jest dodanie do komponentu LoginPage dwóch pól tekstowych "First name" oraz "Last name", które będą pobierały dane logującego się użytkownika.
-
-Użytkownik ten powinien być zapisany w localStorage abyśmy mogli nastepnie wyświetlić jego nazwę w aplikacji. Podczas wylogowywania z aplikacji użytkownik ten powinien być również kasowany z localStorage.
-
-Informacje o takim użytkowniku będzie można zapisać w obiekcie o następującej strukturze:
-`{
-firstName: 'Jacek',
-lastName: 'Placek
-}`
-
-Taki właśnie obiekt powinien być przetrzymywany w localStorage aby nadal była możliwość wyświetlenia imienia i nazwiska aktualnie zalogowanego użytkownika w komponencie Header.
-
-Do tego zadania musisz wykorzystać wspomniane na wykładzie metody JSON.stringify() oraz JSON.parse()
-
-# Zadanie 8 - Router guard - wymuszenie przeniesienia do login page jeżeli użytkownik nie istnieje
-
-Celem tego zadania jest dodanie do komponentu App.js takiej logiki, która za każdym razem sprawdzi czy istnieje użytkownik zapisany w localStorage.
-
-- Jeżeli tak -> aplikacja zachowa się normalnie
-
-- Jeżeli nie -> użytkownik zostanie przeniesiony na stronę logowania (tak na prawdę nie zobaczy nawet strony głównej)
-
-Aby wykonać test powyższego zadania zaloguj się normalnie, poczym ręcznie tj. przez konsole w przeglądarce usuń użytkownika z localStorage, komenda `localStorage.clear()` wyczyści cały storage. Następnie odśwież stronę - skoro usunąłeś użytkokwnika, to powinieneś wylądować na stronie LoginPage
+const removedAirp = location?.state?.removedAirport
+```

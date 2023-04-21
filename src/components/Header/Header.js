@@ -14,10 +14,10 @@ const Header = (props) => {
     navigate('/');
   };
 
-  const getAirportsFromAPI = async () => {
+  const getAirportsFromAPI = async (path) => {
     try {
       dispatch(setAirportsLoadingState('loading'))
-      const response = await axios.get('http://localhost:9000/airports');
+      const response = await axios.get(`http://localhost:9000/${path}`);
       dispatch(loadAirports(response.data))
       dispatch(setAirportsLoadingState('success'))
     } catch (error) {
@@ -32,8 +32,8 @@ const Header = (props) => {
       <button onClick={handleButtonClick}>Sign Out</button>
       <p>Jesteś zalogowany jako: </p>
       {userFromLocalStorage?.userFirstName} {userFromLocalStorage?.userLastName}
-      <button onClick={() => getAirportsFromAPI()}>Załaduj lotniska</button>
-      <button onClick={() => dispatch(loadAirports())}>Załaduj lotniska - z błędem</button>
+      <button onClick={() => getAirportsFromAPI('airports')}>Załaduj lotniska</button>
+      <button onClick={() => getAirportsFromAPI('airports/delayed')}>Załaduj lotniska - z opóźnieniem</button>
     </div>
   );
 };

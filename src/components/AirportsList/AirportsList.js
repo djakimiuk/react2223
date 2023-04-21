@@ -6,10 +6,12 @@ import Snackbar from '@mui/material/Snackbar';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSelectedAirport } from '../../redux/airportsSlice';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const AirportList = () => {
   const [snackbarIsVisible, setSnackbarIsVisible] = useState(false);
   const airportsList = useSelector((state) => state.airports.list);
+  const loadingStatus = useSelector((state) => state.airports.airportsLoadingState);
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -36,7 +38,8 @@ const AirportList = () => {
       />
       <header className={commonColumnsStyles.AppHeader}>
         <p>AirportList</p>
-        {airportsList.length > 0
+        {loadingStatus === 'loading' ? <CircularProgress /> :
+        airportsList.length > 0
           ? airportsList.map((airport) => (
               <span onClick={() => handleItemClick(airport)}>
                 {' '}

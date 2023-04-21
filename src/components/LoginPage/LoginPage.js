@@ -50,7 +50,7 @@ export const LoginPage = () => {
         size="large"
         sx={{ mt: 2 }}
       >
-        Outlined
+        Zaloguj
       </Button>
     </Box>
   );

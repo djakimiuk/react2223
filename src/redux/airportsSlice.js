@@ -20,7 +20,7 @@ export const airportsSlice = createSlice({
       // state.list = [];
     },
     setSelectedAirport: (state, value) => {
-      // state.selectedAirport = value.payload;
+      state.selectedAirport = value.payload;
     },
     removeAirport: (state, value) => {
       // const airportToRemove = value.payload;

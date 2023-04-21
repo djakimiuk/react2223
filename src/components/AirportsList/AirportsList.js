@@ -5,8 +5,9 @@ import { useLocation } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setSelectedAirport } from '../../redux/airportsSlice';
+import { setSelectedAirport, setResponseError, setAirportsLoadingState } from '../../redux/airportsSlice';
 import CircularProgress from '@mui/material/CircularProgress';
+import axios from 'axios';
 
 const AirportList = () => {
   const [snackbarIsVisible, setSnackbarIsVisible] = useState(false);
@@ -22,9 +23,16 @@ const AirportList = () => {
       setSnackbarIsVisible(true);
   }, [responseError]);
 
-  const handleItemClick = (airport) => {
-    dispatch(setSelectedAirport(airport));
-    navigate(`/airport/details/${airport.airportId}`);
+  const handleItemClick = async (airport) => {
+    try {
+      dispatch(setAirportsLoadingState('loading'))
+      const response = await axios.get(`http://localhost:9000/airports/${airport.id}/delayed`);
+      dispatch(setSelectedAirport(response.data))
+      dispatch(setAirportsLoadingState('success'))
+      navigate(`/airport/details/${airport.id}`);
+    } catch(error) {
+      dispatch(setAirportsLoadingState('error'))
+    }
   };
 
   return (

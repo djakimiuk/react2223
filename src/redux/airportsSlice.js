@@ -6,7 +6,8 @@ export const airportsSlice = createSlice({
   initialState: {
     list: [],
     selectedAirport: null,
-    airportsLoadingState: 'initial'
+    airportsLoadingState: 'initial',
+    responseError: ''
   },
   reducers: {
     loadAirports: (state, value) => {
@@ -30,6 +31,9 @@ export const airportsSlice = createSlice({
     setAirportsLoadingState: (state, value) => {
       state.airportsLoadingState = value.payload;
     },
+    setResponseError: (state, value) => {
+      state.responseError = value.payload;
+    },
   },
 });
 
@@ -38,7 +42,8 @@ export const {
   removeAirports,
   setSelectedAirport,
   removeAirport,
-  setAirportsLoadingState
+  setAirportsLoadingState,
+  setResponseError
 } = airportsSlice.actions;
 
 export default airportsSlice.reducer;

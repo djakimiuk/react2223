@@ -3,7 +3,7 @@ import styles from './Header.module.scss';
 import WithRouterHOC from '../WithRouterHOC/WithRouterHOC';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { loadAirports, setAirportsLoadingState } from '../../redux/airportsSlice';
+import { loadAirports, setAirportsLoadingState, setResponseError } from '../../redux/airportsSlice';
 import axios from 'axios';
 
 const Header = (props) => {
@@ -22,6 +22,7 @@ const Header = (props) => {
       dispatch(setAirportsLoadingState('success'))
     } catch (error) {
       dispatch(setAirportsLoadingState('error'))
+      dispatch(setResponseError(error.response.data.error))
     }
   }
 
@@ -34,6 +35,7 @@ const Header = (props) => {
       {userFromLocalStorage?.userFirstName} {userFromLocalStorage?.userLastName}
       <button onClick={() => getAirportsFromAPI('airports')}>Załaduj lotniska</button>
       <button onClick={() => getAirportsFromAPI('airports/delayed')}>Załaduj lotniska - z opóźnieniem</button>
+      <button onClick={() => getAirportsFromAPI('airports/delayed/failed')}>Załaduj lotniska - z błędem</button>
     </div>
   );
 };

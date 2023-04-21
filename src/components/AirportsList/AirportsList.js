@@ -12,16 +12,15 @@ const AirportList = () => {
   const [snackbarIsVisible, setSnackbarIsVisible] = useState(false);
   const airportsList = useSelector((state) => state.airports.list);
   const loadingStatus = useSelector((state) => state.airports.airportsLoadingState);
+  const responseError = useSelector((state) => state.airports.responseError);
   const location = useLocation();
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (location?.state?.removedAirport) {
       setSnackbarIsVisible(true);
-    }
-  }, [location]);
+  }, [responseError]);
 
   const handleItemClick = (airport) => {
     dispatch(setSelectedAirport(airport));
@@ -34,7 +33,7 @@ const AirportList = () => {
         open={snackbarIsVisible}
         autoHideDuration={3000}
         onClose={() => setSnackbarIsVisible(false)}
-        message={`Usunąłeś lotnisko o nazwie ${location?.state?.removedAirport?.name}`}
+        message={`${responseError}`}
       />
       <header className={commonColumnsStyles.AppHeader}>
         <p>AirportList</p>

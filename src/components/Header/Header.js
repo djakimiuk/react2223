@@ -3,7 +3,7 @@ import styles from './Header.module.scss';
 import WithRouterHOC from '../WithRouterHOC/WithRouterHOC';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { loadAirports, removeAirports } from '../../redux/airportsSlice';
+import { loadAirports, setAirportsLoadingState } from '../../redux/airportsSlice';
 import axios from 'axios';
 
 const Header = (props) => {
@@ -16,10 +16,12 @@ const Header = (props) => {
 
   const getAirportsFromAPI = async () => {
     try {
+      dispatch(setAirportsLoadingState('loading'))
       const response = await axios.get('http://localhost:9000/airports');
       dispatch(loadAirports(response.data))
+      dispatch(setAirportsLoadingState('success'))
     } catch (error) {
-      // TODO
+      dispatch(setAirportsLoadingState('error'))
     }
   }
 

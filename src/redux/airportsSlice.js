@@ -11,10 +11,7 @@ export const airportsSlice = createSlice({
   },
   reducers: {
     loadAirports: (state, value) => {
-      state.list = value.payload.map((airport) => ({
-        ...airport,
-        id: uniqueId(),
-      }));
+      state.list = value.payload;
     },
     removeAirports: (state) => {
       // state.list = [];

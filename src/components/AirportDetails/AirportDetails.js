@@ -12,7 +12,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Button } from '@mui/material';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeAirport } from '../../redux/airportsSlice';
+import { removeAirport, loadAirports } from '../../redux/airportsSlice';
+import axios from 'axios';
 
 const AirportDetails = () => {
   const navigate = useNavigate();
@@ -24,15 +25,19 @@ const AirportDetails = () => {
   // const airportsList = JSON.parse(localStorage.airports);
   // const matchAirport = airportsList.find((airport) => airport.airportId === id);
 
-  const handleDeleteItem = () => {
-    dispatch(removeAirport(matchAirport));
-
-    navigate('/airport/list', {
-      state: {
-        removedAirport: matchAirport,
-      },
-    });
+  const handleDeleteItem = async () => {
+    try {
+      await axios.delete(`http://localhost:9000/airports/${matchAirport.id}`);
+      const response = await axios.get(`http://localhost:9000/airports`);
+      dispatch(loadAirports(response.data))
+      navigate('/airport/list', {
+        state: {
+          removedAirport: matchAirport,
+        },
+      });
+    } catch(error) {}
   };
+
   return (
     <div className={commonColumnsStyles.App}>
       <Dialog

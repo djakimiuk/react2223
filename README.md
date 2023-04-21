@@ -3,7 +3,7 @@
 
 
 
-# PS 9 - 21.04.2022 Integracja z API / Axios - https://axios-http.com/docs/intro
+# PS 9 - 22.04.2023 Integracja z API / Axios - https://axios-http.com/docs/intro
 
 
 
@@ -105,11 +105,11 @@ Celem tego zadania jest wyświetlenie listy lotnisk (podobnie jak na poprzednich
 
 
 
-- powyższa funkcja powinna wywołać zapytanie GET dla adresu `http://localhost:9000/airports`
+- powyższa funkcja powinna wywołać zapytanie GET dla adresu `http://localhost:9000/airports` za pomocą biblioteki axios, patrz przykład https://axios-http.com/docs/example
 
 
 
-- pobrane lotniska powinny być zapisane w Redux store (wykorzystaj do tego utworzoną na poprzednich zajęciach funkcję dispatchera `setInitialAirportsList` dostępną w komponencie Header
+- pobrane lotniska powinny być zapisane w Redux store (wykorzystaj do tego utworzoną na poprzednich zajęciach funkcję `loadAirports` dostępną w airportsSlice.js
 
 
 
@@ -153,15 +153,15 @@ Aby wykonać to zadanie powinieneś:
 
 
 
-- utworzyć nowe pole w Redux store jak opisano powyżej oraz dodać do niego powiązany reducer (plik reducer.js)
+- utworzyć nowe pole w Redux store z wartością domyślną "initial" oraz utworzyć i wyexportować fukncję reducera która będzie modyfikowała nowy stan (nazwijmy ją "setAirportsLoadingState")
 
 
 
-- w komponencie Header.js umożliwić dostęp do utworzonego reducera poprzez metodę wiążącą `mapDispatchToProps` (alternatywnie możesz użyć hook'a `useDispatch`) - wiedza z poprzednich zajęć
+- zaimportować nowo uworzoną fukncję setAirportsLoadingState w komponencie Header
 
 
 
-- w asynchronicznej metodzie `getAirportsFromAPI` w odpowiednich miejscach wywołaj funkcję z dispatcha aby ustawiać stany:
+- w asynchronicznej metodzie `getAirportsFromAPI` w odpowiednich miejscach wywoła  funkcję z reducera aby ustawiać stany:
 
 
 
@@ -195,13 +195,13 @@ Skoro posiadasz już stany które wyróżniają poszczególne etapy zapytania zr
 
 
 
-Jedno z zapytań API `http://localhost:9000/airports/delayed` ma takie samo zastosowanie jak to z zadania 1, lecz wykonuje się dłużej - 3 sekundy, zatem stan `loading` będzie zauważalnie dłuższy / użytkownik przez 3 sekundy nie będzie miał żadnej informacji o tym co się dzieje. Podmień adres na ten z końcówką "delay" i zobacz o czym mowa.
+Jedno z zapytań API `http://localhost:9000/airports/delayed` ma takie samo zastosowanie jak to z zadania 1, lecz wykonuje się dłużej - 3 sekundy, zatem stan `loading` będzie zauważalnie dłuższy / użytkownik przez 3 sekundy nie będzie miał żadnej informacji o tym co się dzieje. Użyj przycisku "Załaduj z opóźnieniem" aby przetestować ten scenariusz. Zmodyfikuj funkcję "getAirportsFromAPI" w taki sposób aby jako parametr przyjmowała oczekiwany adres url i użyj jej dla obu przycisków.
 
 
 
 
 
-Aby nie dopuścić do takiej sytuacji wyświetlmy dla użytkownika ikonę ładowania https://mui.com/material-ui/react-progress/#circular-indeterminate na czas obsługi zapytania.
+Aby nie dopuścić do sytuacji w której użytkownik kliknął w przysk i nie widać żadnej reakcji wyświetlmy ikonę ładowania https://mui.com/material-ui/react-progress/#circular-indeterminate na czas obsługi zapytania.
 
 
 
@@ -209,19 +209,14 @@ W tym celu powinieneś:
 
 
 
-- w komponencie `AirportsList` uzyskać dostęp do utworzonego pola `airportsLoadingState` w store za pomocą funkcji wiążącej `mapStateToProps` lub alternatywnie hook'a `useSelector`
+- w komponencie `AirportsList` uzyskać dostęp do utworzonego pola `airportsLoadingState`
 
 
 
 - w metodzie render komponentu `AirportsList` powinieneś :
 
 
-
-- wyświetlać listę lotnisk tylko dla statusu `success`
-
-
-
-- wyświetlać `<CircularProgress />` z biblioteki materialUI dla statusu `loading`
+- wyświetlać `<CircularProgress />` z biblioteki materialUI dla statusu `loading`, zamiast listy lotnisk
 
 
 
@@ -241,7 +236,7 @@ W ramach tego zadania:
 
 - wykonaj błędne zapytanie / odczytaj kod błędu w sekcji "catch(error)" i zapisz go do store'a
 
-- wyświetl kod błędu zapisany w store za pomocą notyfikacji "Snackbar - https://mui.com/material-ui/react-snackbar/#simple-snackbars z biblioteku materialUI, ustaw jej autozamykanie na kilka sekund i sprawdź czy wszystko działa poprawnie. Komponent Snackbar możesz użyć w dowolnym miejscu (w dowolnym komponencie) ponieważ wyświetla on wiadomość w zaeklarowanym miejscu niezależnie od położenia w drzewie DOM.
+- wyświetl kod błędu zapisany w store za pomocą notyfikacji "Snackbar - https://mui.com/material-ui/react-snackbar/#simple-snackbars (zmodyfikuj jego użycie z poprzednich zajęć)
 
 
 
@@ -261,9 +256,6 @@ Aby wykonać to zadanie powinieneś:
 
 - po kliknięciu na `<--` która przenosi z powrotem na listę lotnisk usuwaj aktualne litnisko, tj. ustawiaj `selectedAirport` na pusty obiekt `{}`
 
-
-
-Czy zauważyłeś jakieś uniedogodnienia związane z długo wykonującym się zapytaniem do API ? Jeżeli tak zastanów się jak to "polepszyć", zamień wykonywane akcje miejscami / wyświetl gdzieś ikonę ładowania do czasu aż nie uzyskasz danych z API
 
 
 

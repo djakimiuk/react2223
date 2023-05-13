@@ -10,6 +10,7 @@ Uruchomienie gównej aplikacji - `npm install / npm run start`
 Dukumentacja Jest - główna biblioteka do testowania - https://jestjs.io/docs/api - wywołuje asercje (excpect(...))
 
 Dokumentacja React Testing Library - queries (wyszukiwanie elementów które są używane w porównaniu / asercji przez bibliotekę Jest) - https://testing-library.com/docs/queries/about/#overview
+Dokumentacja jest-dom: https://github.com/testing-library/jest-dom
 
 Komenda `npm run test` uruchamia automatycznie wszystkie testy zlokalizowane w plikach `... .test.js`
 Celem tego zadania jest napisanie testów jednostkowych dla komponentu LoginPage.js (w pliku LoginPage.test.js który znajduje tym samym folderze). Komponent zawieta dwa pola tektowe first / last name oraz przycisk do logowania który jest aktywny jeżeli oba pola są wypełnione. Test powinien co najmniej sprawdzać rzeczy opisane na poniższym zrzucie ekranu, który jednocześnie jest szablonem:

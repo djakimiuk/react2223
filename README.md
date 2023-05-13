@@ -16,7 +16,20 @@ Celem tego zadania jest napisanie testów jednostkowych dla komponentu LoginPage
 
 ![image](https://user-images.githubusercontent.com/9209826/168443422-c8d14082-e8f5-4892-b71f-7a8e52c07e4d.png)
 
-# Zadanie 2 - Testy E2E - Cypress
+# Zadanie 2 - Automatyzacja - uruchamianie testów jednostkowych przed każdym commitem - git hook pre-commit
+
+Częstą praktyką jest uruchamianie szybkich testów - jednostkowych przy każdym commicie, dzięki temu na bierząco mamy kontrolę, czy nie psujemy danej funkcjonalności. W ramach tego zadania włączymy taką automatyzację, użyjemy do tego git hook'a pre-commit.
+
+Do łatwej integracji z git hookami mamy moduł husky - https://www.npmjs.com/package/husky
+Instalacja - `npm install husky --save-dev`
+
+Aby skonfigurować pre-commit hook postępuj zgodnie z instrukcją
+
+![image](https://user-images.githubusercontent.com/9209826/168445380-2201e9a0-b41b-4bc6-8e88-d17bc7eaed2d.png)
+
+Aby sprawdzić czy wszystko działa poprawnie, utówrz dowolny commit, testy powinny zostać odpalone automatycznie.
+
+# Zadanie 3 - Testy E2E - Cypress
 
 Instalacja cypressa - wewnątrz folderu  `npm install cypress --save-dev` - z racji pobierania wielu plików instalacja może trwać dłużej niż standardowo
 Dukumentacja z listą dostępnych asercji - https://docs.cypress.io/api/commands/and#Syntax
@@ -54,18 +67,3 @@ Przykładowy scenariusz do testowania:
 - sprawdź czy użytkownik zostal przenioeniony na adres url
 - sprawdź czy nie ma na ekranie lotniska które usunąłeś
 - ......
-
-
-
-# Zadanie 3 - Automatyzacja - uruchamianie testów jednostkowych przed każdym commitem - git hook pre-commit
-
-Częstą praktyką jest uruchamianie szybkich testów - jednostkowych przy każdym commicie, dzięki temu na bierząco mamy kontrolę, czy nie psujemy danej funkcjonalności. W ramach tego zadania włączymy taką automatyzację, użyjemy do tego git hook'a pre-commit.
-
-Do łatwej integracji z git hookami mamy moduł husky - https://www.npmjs.com/package/husky
-Instalacja - `npm install husky --save-dev`
-
-Aby skonfigurować pre-commit hook postępuj zgodnie z instrukcją
-
-![image](https://user-images.githubusercontent.com/9209826/168445380-2201e9a0-b41b-4bc6-8e88-d17bc7eaed2d.png)
-
-Aby sprawdzić czy wszystko działa poprawnie, utówrz dowolny commit, testy powinny zostać odpalone automatycznie.

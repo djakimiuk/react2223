@@ -1,5 +1,5 @@
 import ProductsList from "../ProductsList/ProductsList";
-import shoppingList from "../shoppingList/shoppingList";
+import shoppingList from "../ShopingList/ShopingList";
 import styles from "../../App.module.scss";
 
 function Dashboard() {

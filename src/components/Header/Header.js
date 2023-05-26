@@ -1,10 +1,27 @@
 import React from "react";
 import styles from "../../common/styles/Headers.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Typography, Button } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { loadProducts } from "../../redux/productsSlice";
+import axios from "axios";
 
 function Header(props) {
   const currentUser = JSON.parse(window.localStorage.getItem("user"));
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleLogoutButtonClick = () => {
+    localStorage.removeItem("user");
+  };
+
+  const getProductsFromApi = async (path) => {
+    try {
+      const response = await axios.get(`http://localhost:9000/${path}`);
+      dispatch(loadProducts(response.data));
+    } catch (error) {
+      console.log(`There was an error: ${error.response.data.error}`);
+    }
+  };
 
   return (
     <div className={styles.headerWrapper}>
@@ -13,9 +30,18 @@ function Header(props) {
           Zalogowany:{" "}
           {`${currentUser.userfirstName} ${currentUser.userLastName}`}
         </Typography>
-        <Button variant="contained">Załaduj produkty</Button>
+        <Button
+          onClick={() => getProductsFromApi("products")}
+          variant="contained"
+        >
+          Załaduj produkty
+        </Button>
         <Link to="/">
-          <Button variant="contained" color="error">
+          <Button
+            onClick={handleLogoutButtonClick}
+            variant="contained"
+            color="error"
+          >
             Wyloguj
           </Button>
         </Link>

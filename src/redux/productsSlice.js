@@ -4,15 +4,18 @@ export const productsSlice = createSlice({
   name: "products",
   initialState: {
     list: [],
-    selectedProduct: null,
+    selectedProduct: {},
   },
   reducers: {
     loadProducts: (state, value) => {
       state.list = value.payload;
     },
+    setSelectedProduct: (state, value) => {
+      state.selectedProduct = value.payload;
+    },
   },
 });
 
-export const { loadProducts } = productsSlice.actions;
+export const { loadProducts, setSelectedProduct } = productsSlice.actions;
 
 export default productsSlice.reducer;

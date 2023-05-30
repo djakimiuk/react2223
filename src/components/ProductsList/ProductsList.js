@@ -1,9 +1,33 @@
 import React from "react";
 import commonColumnsStyles from "../../common/styles/Columns.module.scss";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import {
+  loadShoppingList,
+  addProductToShoppingList,
+} from "../../redux/shoppingListSlice";
+import { setSelectedProduct } from "../../redux/productsSlice";
 
 function ProductsList() {
+  const dispatch = useDispatch();
   const productsList = useSelector((state) => state.products.list);
+
+  const postProductToShoppingList = async (product) => {
+    try {
+      dispatch(setSelectedProduct(product));
+      const response = await axios.post(
+        `http://localhost:9000/products/shoppingList/new`,
+        {
+          ...product,
+        }
+      );
+      console.log(response.data);
+      dispatch(addProductToShoppingList(response.data));
+    } catch (error) {
+      console.log(`There was an error: ${error}`);
+    }
+  };
+
   return (
     <div className={commonColumnsStyles.AppColumn}>
       <header className={commonColumnsStyles.AppHeader}>
@@ -11,7 +35,9 @@ function ProductsList() {
         <ul>
           {productsList.map((product) => (
             <li key={product.id}>
-              <label>{product.name}</label>
+              <label onClick={() => postProductToShoppingList(product)}>
+                {product.name}
+              </label>
             </li>
           ))}
         </ul>

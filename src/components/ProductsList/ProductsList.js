@@ -2,8 +2,11 @@ import React from "react";
 import commonColumnsStyles from "../../common/styles/Columns.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { addProductToShoppingList } from "../../redux/shoppingListSlice";
+import { loadShoppingList } from "../../redux/shoppingListSlice";
 import { setSelectedProduct } from "../../redux/productsSlice";
+import { uniqueId } from "lodash";
+import * as consts from "../../consts/consts";
+
 
 function ProductsList() {
   const dispatch = useDispatch();
@@ -12,14 +15,12 @@ function ProductsList() {
   const postProductToShoppingList = async (product) => {
     try {
       dispatch(setSelectedProduct(product));
-      const response = await axios.post(
-        `http://localhost:9000/products/shoppingList/new`,
-        {
-          ...product,
-        }
-      );
-      console.log(response.data);
-      dispatch(addProductToShoppingList(response.data));
+      await axios.post(`${consts.HOST}/products/shoppingList/new`, {
+        ...product,
+        id: uniqueId(),
+      });
+      const response = await axios.get(`${consts.HOST}/products/shoppingList`);
+      dispatch(loadShoppingList(response.data));
     } catch (error) {
       console.log(`There was an error: ${error}`);
     }

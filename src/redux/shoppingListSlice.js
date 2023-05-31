@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { uniqueId } from "lodash";
 
 export const shoppingListSlice = createSlice({
   name: "shoppingList",
@@ -11,14 +10,13 @@ export const shoppingListSlice = createSlice({
     loadShoppingList: (state, value) => {
       state.list = value.payload;
     },
-    addProductToShoppingList: (state, value) => {
-      const content = value.payload;
-      state.list.push({ ...content, shoppingListId: uniqueId() });
+    setSelectedShoppingListProduct: (state, value) => {
+      state.selectedProduct = value.payload;
     },
   },
 });
 
-export const { loadShoppingList, addProductToShoppingList } =
+export const { loadShoppingList, setSelectedShoppingListProduct } =
   shoppingListSlice.actions;
 
 export default shoppingListSlice.reducer;

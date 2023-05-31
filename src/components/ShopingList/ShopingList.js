@@ -2,21 +2,35 @@ import { useDispatch, useSelector } from "react-redux";
 import commonColumnsStyles from "../../common/styles/Columns.module.scss";
 import { useEffect } from "react";
 import axios from "axios";
-import { loadShoppingList } from "../../redux/shoppingListSlice";
+import {
+  loadShoppingList,
+  setSelectedShoppingListProduct,
+} from "../../redux/shoppingListSlice";
+import * as consts from "../../consts/consts";
 
 function ShoppingList() {
   const shoppingList = useSelector((state) => state.shoppingList.list);
   const dispatch = useDispatch();
   const getShoppingListFromApi = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:9000/products/shoppingList`
-      );
+      const response = await axios.get(`${consts.HOST}/products/shoppingList`);
       dispatch(loadShoppingList(response.data));
     } catch (error) {
       console.log(`There was an error ${error}`);
     }
   };
+
+  const deleteProductFromShoppingList = async (product) => {
+    try {
+      dispatch(setSelectedShoppingListProduct(product));
+      await axios.delete(`${consts.HOST}/products/shoppingList/${product.id}`);
+      const response = await axios.get(`${consts.HOST}/products/shoppingList`);
+      dispatch(loadShoppingList(response.data));
+    } catch (error) {
+      console.log(`There was an error: ${error}`);
+    }
+  };
+
   useEffect(() => {
     getShoppingListFromApi();
   }, []);
@@ -27,8 +41,14 @@ function ShoppingList() {
         <p>Shopping List</p>
         <ul>
           {shoppingList.map((product) => (
-            <li key={product.shoppingListId}>
-              <label>{product.name}</label>
+            <li key={product.id}>
+              <label
+                onClick={() => {
+                  deleteProductFromShoppingList(product);
+                }}
+              >
+                {product.name}
+              </label>
             </li>
           ))}
         </ul>

@@ -2,10 +2,7 @@ import React from "react";
 import commonColumnsStyles from "../../common/styles/Columns.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import {
-  loadShoppingList,
-  addProductToShoppingList,
-} from "../../redux/shoppingListSlice";
+import { addProductToShoppingList } from "../../redux/shoppingListSlice";
 import { setSelectedProduct } from "../../redux/productsSlice";
 
 function ProductsList() {

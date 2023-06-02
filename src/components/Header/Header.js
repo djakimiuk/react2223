@@ -3,12 +3,11 @@ import styles from "../../common/styles/Headers.module.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { Typography, Button } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { loadProducts } from "../../redux/productsSlice";
+import { filterProducts, loadProducts } from "../../redux/productsSlice";
 import axios from "axios";
 
 function Header(props) {
   const currentUser = JSON.parse(window.localStorage.getItem("user"));
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogoutButtonClick = () => {
     localStorage.removeItem("user");
@@ -18,6 +17,7 @@ function Header(props) {
     try {
       const response = await axios.get(`http://localhost:9000/${path}`);
       dispatch(loadProducts(response.data));
+      dispatch(filterProducts());
     } catch (error) {
       console.log(`There was an error: ${error.response.data.error}`);
     }

@@ -10,7 +10,7 @@ import * as consts from "../../consts/consts";
 
 function ProductsList() {
   const dispatch = useDispatch();
-  const productsList = useSelector((state) => state.products.list);
+  const productsList = useSelector((state) => state.products.filteredList);
 
   const postProductToShoppingList = async (product) => {
     try {

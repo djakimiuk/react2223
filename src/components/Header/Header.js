@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../../common/styles/Headers.module.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Typography, Button } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { filterProducts, loadProducts } from "../../redux/productsSlice";

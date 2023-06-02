@@ -6,15 +6,15 @@ import { loadShoppingList } from "../../redux/shoppingListSlice";
 import { setSelectedProduct } from "../../redux/productsSlice";
 import { uniqueId } from "lodash";
 import * as consts from "../../consts/consts";
-
+import { useNavigate } from "react-router-dom";
 
 function ProductsList() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const productsList = useSelector((state) => state.products.filteredList);
 
   const postProductToShoppingList = async (product) => {
     try {
-      dispatch(setSelectedProduct(product));
       await axios.post(`${consts.HOST}/products/shoppingList/new`, {
         ...product,
         id: uniqueId(),
@@ -26,6 +26,16 @@ function ProductsList() {
     }
   };
 
+  const productDetailsHandle = async (id) => {
+    try {
+    const response = await axios.get(`${consts.HOST}/products/${id}`);
+    dispatch(setSelectedProduct(response.data));
+    navigate(`/products/details/${id}`);
+    } catch (error) {
+      console.log(`There was an error: ${error}`)
+    }
+  };
+
   return (
     <div className={commonColumnsStyles.AppColumn}>
       <header className={commonColumnsStyles.AppHeader}>
@@ -33,7 +43,13 @@ function ProductsList() {
         <ul>
           {productsList.map((product) => (
             <li key={product.id}>
-              <label onClick={() => postProductToShoppingList(product)}>
+              <label
+                onClick={() => postProductToShoppingList(product)}
+                onContextMenu={(e) => {
+                  productDetailsHandle(product.id);
+                  e.preventDefault();
+                }}
+              >
                 {product.name}
               </label>
             </li>

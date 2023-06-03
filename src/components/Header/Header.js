@@ -3,7 +3,11 @@ import styles from "../../common/styles/Headers.module.scss";
 import { Link } from "react-router-dom";
 import { Typography, Button } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { filterProducts, loadProducts } from "../../redux/productsSlice";
+import {
+  filterProducts,
+  loadProducts,
+  setActiveProduct,
+} from "../../redux/productsSlice";
 import axios from "axios";
 
 function Header(props) {
@@ -16,8 +20,10 @@ function Header(props) {
   const getProductsFromApi = async (path) => {
     try {
       const response = await axios.get(`http://localhost:9000/${path}`);
-      dispatch(loadProducts(response.data));
+      const products = response.data;
+      dispatch(loadProducts(products));
       dispatch(filterProducts());
+      dispatch(setActiveProduct(products[0].id));
     } catch (error) {
       console.log(`There was an error: ${error.response.data.error}`);
     }

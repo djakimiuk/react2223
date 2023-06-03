@@ -2,10 +2,7 @@ import Header from "./components/Header/Header";
 import ProductsFilters from "./components/ProductsFilters/ProductsFilters";
 import styles from "./App.module.scss";
 import { Navigate, Outlet } from "react-router-dom";
-import Dashboard from "./components/Dashboard/Dashboard";
-// import { Outlet } from "react-router-dom";
-// import ProductsList from "./components/ProductsList/ProductsList";
-// import shoppingList from "./components/shoppingList/shoppingList";
+
 
 function App(props) {
   const userExist = localStorage.getItem("user");

@@ -8,6 +8,7 @@ export const productsSlice = createSlice({
     selectedProduct: {},
     foodOnlyFilter: false,
     inputFilterValue: "",
+    activeProduct: 0,
   },
   reducers: {
     loadProducts: (state, value) => {
@@ -33,6 +34,9 @@ export const productsSlice = createSlice({
     setInputFilter: (state, value) => {
       state.inputFilterValue = value.payload;
     },
+    setActiveProduct: (state, value) => {
+      state.activeProduct = +value.payload;
+    },
   },
 });
 
@@ -42,6 +46,7 @@ export const {
   setFoodOnlyFilter,
   filterProducts,
   setInputFilter,
+  setActiveProduct,
 } = productsSlice.actions;
 
 export default productsSlice.reducer;

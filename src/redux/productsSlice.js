@@ -27,6 +27,7 @@ export const productsSlice = createSlice({
         );
       }
       state.filteredList = filteredList;
+      state.activeProduct = +filteredList[0].id
     },
     setFoodOnlyFilter: (state, value) => {
       state.foodOnlyFilter = value.payload;

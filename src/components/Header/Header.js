@@ -9,6 +9,7 @@ import {
   setActiveProduct,
 } from "../../redux/productsSlice";
 import axios from "axios";
+import * as consts from "../../consts/consts";
 
 function Header(props) {
   const currentUser = JSON.parse(window.localStorage.getItem("user"));
@@ -19,7 +20,7 @@ function Header(props) {
 
   const getProductsFromApi = async (path) => {
     try {
-      const response = await axios.get(`http://localhost:9000/${path}`);
+      const response = await axios.get(`${consts.HOST}/${path}`);
       const products = response.data;
       dispatch(loadProducts(products));
       dispatch(filterProducts());

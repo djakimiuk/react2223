@@ -74,7 +74,7 @@ function ProductsList() {
     if (productsList.length > 0) {
       ref.current.focus();
     }
-  }, [productsList]);
+  }, []);
 
   return (
     <div className={commonColumnsStyles.AppColumn}>

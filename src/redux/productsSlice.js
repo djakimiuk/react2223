@@ -5,7 +5,7 @@ export const productsSlice = createSlice({
   initialState: {
     list: [],
     filteredList: [],
-    selectedProduct: {},
+    selectedProduct: null,
     foodOnlyFilter: false,
     inputFilterValue: "",
     activeProduct: 0,

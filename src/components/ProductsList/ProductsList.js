@@ -2,7 +2,10 @@ import React from "react";
 import commonColumnsStyles from "../../common/styles/Columns.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { loadShoppingList } from "../../redux/shoppingListSlice";
+import {
+  loadShoppingList,
+  setshoppingListLoadingStatus,
+} from "../../redux/shoppingListSlice";
 import {
   setActiveProduct,
   setSelectedProduct,
@@ -17,7 +20,6 @@ function ProductsList() {
   const navigate = useNavigate();
   const productsList = useSelector((state) => state.products.filteredList);
   const activeProduct = useSelector((state) => state.products.activeProduct);
-  const shoppingList = useSelector((state) => state.shoppingList.list);
   const ref = useRef(null);
   const lastIndex = productsList.length - 1;
 
@@ -25,7 +27,6 @@ function ProductsList() {
     switch (event.key) {
       case "ArrowDown":
         if (activeProduct === +productsList[lastIndex].id) {
-          console.log(lastIndex);
           dispatch(setActiveProduct(+productsList[0].id));
         } else dispatch(setActiveProduct(activeProduct + 1));
         break;
@@ -35,21 +36,23 @@ function ProductsList() {
         } else dispatch(setActiveProduct(activeProduct - 1));
         break;
       case "d":
-        productDetailsHandle();
+        productDetailsHandle(activeProduct);
         break;
       default:
-        dispatch(setActiveProduct(null));
+        dispatch(setActiveProduct(activeProduct));
     }
   };
 
   const postProductToShoppingList = async (product) => {
     try {
+      dispatch(setshoppingListLoadingStatus("loading"));
       await axios.post(`${consts.HOST}/products/shoppingList/new`, {
         ...product,
-        id: uniqueId(),
+        id: uniqueId() + Date.now(),
       });
       const response = await axios.get(`${consts.HOST}/products/shoppingList`);
       dispatch(loadShoppingList(response.data));
+      dispatch(setshoppingListLoadingStatus("success"));
     } catch (error) {
       console.log(`There was an error: ${error}`);
     }
@@ -57,8 +60,10 @@ function ProductsList() {
 
   const productDetailsHandle = async (id) => {
     try {
+      dispatch(setshoppingListLoadingStatus("loading"));
       const response = await axios.get(`${consts.HOST}/products/${id}`);
       dispatch(setSelectedProduct(response.data));
+      dispatch(setshoppingListLoadingStatus("success"));
       navigate(`/products/details/${id}`);
     } catch (error) {
       console.log(`There was an error: ${error}`);

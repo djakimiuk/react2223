@@ -5,6 +5,7 @@ export const shoppingListSlice = createSlice({
   initialState: {
     list: [],
     selectedProduct: null,
+    shoppingListLoadingStatus: "initial",
   },
   reducers: {
     loadShoppingList: (state, value) => {
@@ -13,10 +14,16 @@ export const shoppingListSlice = createSlice({
     setSelectedShoppingListProduct: (state, value) => {
       state.selectedProduct = value.payload;
     },
+    setshoppingListLoadingStatus: (state, value) => {
+      state.shoppingListLoadingStatus = value.payload;
+    },
   },
 });
 
-export const { loadShoppingList, setSelectedShoppingListProduct } =
-  shoppingListSlice.actions;
+export const {
+  loadShoppingList,
+  setSelectedShoppingListProduct,
+  setshoppingListLoadingStatus,
+} = shoppingListSlice.actions;
 
 export default shoppingListSlice.reducer;

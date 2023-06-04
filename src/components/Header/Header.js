@@ -40,6 +40,7 @@ function Header(props) {
         <Button
           onClick={() => getProductsFromApi("products")}
           variant="contained"
+          data-testid="loadButton-button"
         >
           Załaduj produkty
         </Button>

@@ -83,6 +83,7 @@ function ProductsList() {
         <ul>
           {productsList.map((product) => (
             <li
+            data-testid="productList-item"
               ref={ref}
               tabIndex={-1}
               onKeyDown={handleKeyDown}

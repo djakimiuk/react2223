@@ -46,7 +46,7 @@ function ShoppingList() {
     <div className={commonColumnsStyles.App}>
       <header className={commonColumnsStyles.AppHeader}>
         <p>Shopping List</p>
-        <ul>
+        <ul data-testid="shopping-list">
           {loadingStatus === "loading" ? (
             <CircularProgress />
           ) : (

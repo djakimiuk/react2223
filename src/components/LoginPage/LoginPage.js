@@ -28,6 +28,7 @@ function LoginPage() {
             id="outlined-basic"
             label="First name"
             variant="outlined"
+            data-testid="name-field"
             value={userfirstName}
             onChange={(event) => setUserFirstName(event.target.value)}
           />
@@ -38,6 +39,7 @@ function LoginPage() {
             id="outlined-basic"
             label="Last name"
             variant="outlined"
+            data-testid="surname-field"
             value={userLastName}
             onChange={(event) => setUserLastName(event.target.value)}
           />
